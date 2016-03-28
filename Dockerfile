@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y wget curl build-essential libssl-dev nc
 # Install Erlang and RabbitMQ
 RUN  mkdir /erlang && \
   cd /erlang && \
-  curl -O http://www.erlang.org/download/otp_src_17.5.tar.gz && \
+  curl -O http://erlang.org/download/otp_src_17.5.tar.gz && \
   sudo tar xzf otp_src_17.5.tar.gz && \
   cd otp_src_17.5 && \
   export ERL_TOP=`pwd` && \
