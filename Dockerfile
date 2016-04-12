@@ -25,7 +25,7 @@ RUN  mkdir /erlang && \
   rabbitmq-plugins enable rabbitmq_mqtt
 
 # Define environment variables.
-ENV RABBITMQ_LOG_BASE /data/log
+ENV RABBITMQ_LOG_BASE /var/log/rabbitmq
 ENV RABBITMQ_MNESIA_BASE /data/mnesia
 
 # Expose ports.
