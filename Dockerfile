@@ -29,7 +29,6 @@ ENV RABBITMQ_LOG_BASE /var/log/rabbitmq
 ENV RABBITMQ_MNESIA_BASE /data/mnesia
 ENV RMQ_JOIN_CLUSTER false
 ENV ERLANG_COOKIE XKISFLWXZPSEZGKSKOOG
-ENV RABBITMQ_USE_LONGNAME true
 
 # Add rmq join cluster script
 ADD rmq-join.sh /app/rmq-join.sh
@@ -39,17 +38,14 @@ RUN mkdir -p /etc/service/rabbitmq
 ADD start-rmq.sh /etc/service/rabbitmq/run
 RUN chmod +x /etc/service/rabbitmq/run
 
+# Add Rabbitmq config file
+ADD rabbitmq.config /etc/rabbitmq/rabbitmq.config
+
 # Expose ports.
 EXPOSE 5672
 EXPOSE 15672
 EXPOSE 4369
 EXPOSE 44001
 
-# Expose MQTT Ports
-EXPOSE 8883
-EXPOSE 1883
-
 # Define Volumes
 VOLUME ["/data/log", "/data/mnesia"]
-
-
