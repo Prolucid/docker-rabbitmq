@@ -19,16 +19,18 @@ RUN  mkdir /erlang && \
   make && \
   make install && \
   cd /tmp && \
-  curl -O http://www.rabbitmq.com/releases/rabbitmq-server/v3.5.6/rabbitmq-server_3.5.6-1_all.deb && \
-  dpkg -i --ignore-depends=erlang-nox rabbitmq-server_3.5.6-1_all.deb && \
+  curl -O http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.6/rabbitmq-server_3.6.6-1_all.deb && \
+  curl -O https://bintray.com/rabbitmq/community-plugins/download_file?file_path=rabbitmq_web_mqtt-3.6.x-14dae543.ez && \
+  dpkg -i --ignore-depends=erlang-nox rabbitmq-server_3.6.6-1_all.deb && \
+  mv rabbitmq_web_mqtt-3.6.x-14dae543.ez /plugins && \
   rabbitmq-plugins enable rabbitmq_management && \
-  rabbitmq-plugins enable rabbitmq_mqtt
+  rabbitmq-plugins enable rabbitmq_mqtt && \
+  rabbitmq-plugins enable rabbitmq_web_mqtt
 
 # Define environment variables.
 ENV RABBITMQ_LOG_BASE /data/log
 ENV RABBITMQ_MNESIA_BASE /data/mnesia
 ENV RMQ_JOIN_CLUSTER false
-ENV ERLANG_COOKIE XKISFLWXZPSEZGKSKOOG
 
 # Add rmq join cluster script
 ADD rmq-join.sh /app/rmq-join.sh
@@ -38,14 +40,12 @@ RUN mkdir -p /etc/service/rabbitmq
 ADD start-rmq.sh /etc/service/rabbitmq/run
 RUN chmod +x /etc/service/rabbitmq/run
 
-# Add Rabbitmq config file
-ADD rabbitmq.config /etc/rabbitmq/rabbitmq.config
-
 # Expose ports.
 EXPOSE 5672
 EXPOSE 15672
 EXPOSE 4369
+EXPOSE 14369
 EXPOSE 44001
 
 # Define Volumes
-VOLUME ["/data/log", "/data/mnesia"]
+VOLUME ["/data/log", "/data/mnesia", "/etc/rabbitmq"]
