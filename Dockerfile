@@ -50,4 +50,4 @@ EXPOSE 14369
 EXPOSE 44001
 
 # Define Volumes
-VOLUME ["/data/log", "/data/mnesia", "/etc/rabbitmq"]
+VOLUME ["/data/log", "/data/mnesia"]
